@@ -1,0 +1,6 @@
+{
+  "name": "MEYRA AI",
+  "description": "Your intelligent AI companion. A complete, production-ready AI chat application with a modern futuristic interface, streaming responses, and modular architecture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
