@@ -117,6 +117,18 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
           hr() {
             return <hr className="my-6 border-white/10" />;
           },
+          img({ src, alt }) {
+            return (
+              <div className="my-3.5 rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#0f0f15] max-w-2xl">
+                <img
+                  src={src}
+                  alt={alt || "MEYRA AI Asset"}
+                  className="w-full max-h-96 sm:max-h-[440px] object-cover mx-auto rounded-xl select-none"
+                  loading="eager"
+                />
+              </div>
+            );
+          },
         }}
       >
         {content}

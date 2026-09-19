@@ -46,7 +46,7 @@ export const ApiKeyNoticeModal: React.FC<ApiKeyNoticeModalProps> = ({ isOpen, on
               <li>
                 Add your Gemini API key using <code className="text-amber-300 font-mono bg-white/5 px-1 py-0.5 rounded">GEMINI_API_KEY</code>:
                 <pre className="mt-1 p-2 rounded bg-black/50 border border-white/5 text-indigo-300 font-mono text-[11px] overflow-x-auto">
-GEMINI_API_KEY="AIzaSy..."
+GEMINI_API_KEY="your_gemini_api_key_here"
                 </pre>
               </li>
               <li>

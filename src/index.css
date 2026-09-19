@@ -1,10 +1,35 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
+  :root {
+    color-scheme: dark;
+    --app-bg: #0A0A0B;
+    --app-text: #E2E8F0;
+  }
+
+  html.light,
+  :root[data-theme="light"],
+  body.light {
+    color-scheme: light;
+    --app-bg: #F8FAFC;
+    --app-text: #0F172A;
+  }
+
+  html.dark,
+  :root[data-theme="dark"],
+  body.dark {
+    color-scheme: dark;
+    --app-bg: #0A0A0B;
+    --app-text: #E2E8F0;
+  }
+
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: #0A0A0B;
-    color: #E2E8F0;
+    background-color: var(--app-bg);
+    color: var(--app-text);
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   /* Custom subtle scrollbar */
@@ -16,11 +41,18 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.24);
+  }
+
+  html.light ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+  }
+  html.light ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -33,4 +65,283 @@
   animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@keyframes soundwave {
+  0%, 100% { height: 6px; }
+  50% { height: 18px; }
+}
 
+.animate-soundwave-1 { animation: soundwave 0.7s ease-in-out infinite 0.0s; }
+.animate-soundwave-2 { animation: soundwave 0.7s ease-in-out infinite 0.2s; }
+.animate-soundwave-3 { animation: soundwave 0.7s ease-in-out infinite 0.4s; }
+.animate-soundwave-4 { animation: soundwave 0.7s ease-in-out infinite 0.15s; }
+
+/* ========================================================================= */
+/* MEYRA AI GLOBAL LIGHT THEME STYLING SPECIFICATION                         */
+/* Transforms the full interface to an accessible, crisp light theme         */
+/* ========================================================================= */
+
+html.light body,
+body.light,
+html.light #meyra-app-root,
+.light#meyra-app-root {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+/* Base dark backgrounds converted to clean light canvas */
+html.light .bg-\[\#0A0A0B\],
+html.light .bg-\[\#0A0A0E\],
+html.light .bg-\[\#0f0f15\] {
+  background-color: #F8FAFC !important;
+}
+
+/* Translucent backdrops in light mode */
+html.light .bg-\[\#0A0A0B\]\/95,
+html.light .bg-\[\#0A0A0B\]\/85,
+html.light .bg-\[\#0A0A0B\]\/90 {
+  background-color: rgba(248, 250, 252, 0.94) !important;
+}
+
+html.light .bg-\[\#0A0A0B\]\/60 {
+  background-color: rgba(241, 245, 249, 0.85) !important;
+}
+
+/* Containers, modals, sidebars, cards, and message composer surfaces */
+html.light .bg-\[\#121216\],
+html.light .bg-\[\#121217\],
+html.light .bg-\[\#131316\],
+html.light .bg-\[\#131317\],
+html.light .bg-\[\#141418\],
+html.light .bg-\[\#141419\],
+html.light .bg-\[\#141419\]\/90,
+html.light .bg-\[\#16161b\] {
+  background-color: #FFFFFF !important;
+}
+
+/* Secondary chips, input fields, cards, and sub-panels */
+html.light .bg-\[\#1a1a1f\],
+html.light .bg-\[\#151518\],
+html.light .bg-\[\#202028\],
+html.light .bg-\[\#222228\],
+html.light .bg-\[\#25252b\] {
+  background-color: #F1F5F9 !important;
+}
+
+/* Subtle white backgrounds converted to light surfaces */
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.02\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .bg-white\/5 {
+  background-color: #F1F5F9 !important;
+}
+
+html.light .bg-white\/10 {
+  background-color: #E2E8F0 !important;
+}
+
+/* Borders in light mode */
+html.light .border-white\/5,
+html.light .border-white\/10,
+html.light .border-white\/15,
+html.light .border-white\/20 {
+  border-color: #E2E8F0 !important;
+}
+
+html.light .divide-white\/5 > :not([hidden]) ~ :not([hidden]),
+html.light .divide-white\/10 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #E2E8F0 !important;
+}
+
+/* Text colors in light mode */
+html.light .text-white,
+html.light .text-slate-100,
+html.light .text-slate-200 {
+  color: #0F172A !important;
+}
+
+html.light .text-slate-300,
+html.light .text-slate-400 {
+  color: #475569 !important;
+}
+
+html.light .text-slate-500 {
+  color: #64748B !important;
+}
+
+/* Hover background states in light mode */
+html.light .hover\:bg-white\/5:hover,
+html.light .hover\:bg-white\/10:hover {
+  background-color: #F1F5F9 !important;
+}
+
+html.light .hover\:bg-\[\#222228\]:hover,
+html.light .hover\:bg-\[\#25252b\]:hover,
+html.light .hover\:bg-\[\#2a2a35\]:hover {
+  background-color: #E2E8F0 !important;
+}
+
+html.light .hover\:text-white:hover,
+html.light .hover\:text-slate-200:hover {
+  color: #0F172A !important;
+}
+
+/* Modals & Dialogs in Light Mode */
+html.light .fixed.inset-0.bg-black\/70,
+html.light .fixed.inset-0.bg-black\/60,
+html.light .fixed.inset-0.bg-black\/80 {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(6px) !important;
+}
+
+/* Form controls & inputs in light mode */
+html.light input:not([type="checkbox"]):not([type="radio"]),
+html.light textarea,
+html.light select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* AI Assistant message bubble in light mode */
+html.light .rounded-2xl.bg-\[\#141419\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05) !important;
+  color: #1E293B !important;
+}
+
+/* Prose markdown typography inside assistant messages */
+html.light .prose,
+html.light .markdown-body {
+  color: #1E293B !important;
+}
+
+html.light .prose h1,
+html.light .prose h2,
+html.light .prose h3,
+html.light .prose h4,
+html.light .prose strong {
+  color: #0F172A !important;
+}
+
+html.light .prose p,
+html.light .prose li {
+  color: #334155 !important;
+}
+
+/* Preserve user message styling (gradient indigo/purple with white text) */
+html.light .bg-gradient-to-r.from-indigo-600,
+html.light .bg-indigo-600,
+html.light .bg-indigo-500 {
+  color: #FFFFFF !important;
+}
+html.light .bg-gradient-to-r.from-indigo-600 *,
+html.light .bg-indigo-600 * {
+  color: #FFFFFF !important;
+}
+
+/* Keep code blocks crisp and readable with dark syntax contrast */
+html.light pre,
+html.light code.hljs,
+html.light .my-4.rounded-xl.bg-\[\#131316\] {
+  background-color: #0F172A !important;
+  color: #E2E8F0 !important;
+  border-color: #1E293B !important;
+}
+html.light pre *,
+html.light .my-4.rounded-xl.bg-\[\#131316\] * {
+  color: inherit;
+}
+
+/* Preserve semantic accent colors in light mode */
+html.light .text-indigo-300 {
+  color: #4F46E5 !important;
+}
+html.light .text-indigo-400 {
+  color: #4338CA !important;
+}
+html.light .text-pink-300,
+html.light .text-pink-400 {
+  color: #DB2777 !important;
+}
+html.light .text-emerald-300,
+html.light .text-emerald-400 {
+  color: #059669 !important;
+}
+html.light .text-cyan-300,
+html.light .text-cyan-400 {
+  color: #0891B2 !important;
+}
+html.light .text-amber-300,
+html.light .text-amber-400 {
+  color: #D97706 !important;
+}
+html.light .text-rose-300,
+html.light .text-rose-400 {
+  color: #E11D48 !important;
+}
+
+/* Selected state accents in light mode */
+html.light .bg-indigo-500\/10,
+html.light .bg-indigo-500\/15 {
+  background-color: #EEF2FF !important;
+  border-color: #C7D2FE !important;
+}
+
+html.light .bg-pink-500\/10 {
+  background-color: #FDF2F8 !important;
+}
+
+html.light .bg-indigo-950\/30,
+html.light .bg-indigo-950\/40,
+html.light .bg-indigo-950\/50 {
+  background-color: #EEF2FF !important;
+  border-color: #C7D2FE !important;
+}
+
+/* Settings tab indicator in light mode */
+html.light .border-indigo-500 {
+  border-color: #4F46E5 !important;
+}
+
+/* Top Navigation in light mode */
+html.light #meyra-top-navigation {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom-color: #E2E8F0 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Sidebar in light mode */
+html.light aside {
+  background-color: #FFFFFF !important;
+  border-right-color: #E2E8F0 !important;
+}
+
+/* Suggestion cards in light mode */
+html.light #meyra-suggestion-cards-grid button {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+html.light #meyra-suggestion-cards-grid button:hover {
+  background-color: #F8FAFC !important;
+  border-color: #A5B4FC !important;
+  box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.12) !important;
+}
+
+/* Message composer box in light mode */
+html.light #meyra-message-composer-wrapper .bg-\[\#16161b\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}

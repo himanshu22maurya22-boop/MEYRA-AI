@@ -1,18 +1,13 @@
 import React from "react";
 import {
   Menu,
-  Plus,
-  Moon,
-  Sun,
-  Settings,
-  Sparkles,
   ChevronRight,
   Edit2,
-  Trash2,
-  Share2,
+  FolderKanban,
 } from "lucide-react";
 import { Logo } from "../brand/Logo";
-import { ThemeMode } from "../../types";
+import { ThemeMode, UserProfile, AIPersona } from "../../types";
+import { PersonaSelector } from "../personas/PersonaSelector";
 
 interface TopNavProps {
   onToggleMobileSidebar: () => void;
@@ -20,12 +15,19 @@ interface TopNavProps {
   isDesktopSidebarCollapsed: boolean;
   currentTitle?: string;
   onRenameChat?: () => void;
-  onNewChat: () => void;
-  onClearChat?: () => void;
-  theme: ThemeMode;
-  onToggleTheme: () => void;
-  onOpenSettings: () => void;
-  isApiConfigured: boolean;
+  onNewChat?: () => void;
+  theme?: ThemeMode;
+  onToggleTheme?: () => void;
+  onOpenSettings?: () => void;
+  onOpenVoiceMode?: () => void;
+  isApiConfigured?: boolean;
+  user?: UserProfile | null;
+  currentPersona: AIPersona;
+  onSelectPersona: (persona: AIPersona) => void;
+  activeProjectTitle?: string | null;
+  onOpenProjects?: () => void;
+  hasMessages?: boolean;
+  onOpenAuth?: () => void;
 }
 
 export const TopNav: React.FC<TopNavProps> = ({
@@ -34,27 +36,27 @@ export const TopNav: React.FC<TopNavProps> = ({
   isDesktopSidebarCollapsed,
   currentTitle = "New Conversation",
   onRenameChat,
-  onNewChat,
-  onClearChat,
-  theme,
-  onToggleTheme,
-  onOpenSettings,
-  isApiConfigured,
+  currentPersona,
+  onSelectPersona,
+  activeProjectTitle,
+  onOpenProjects,
+  hasMessages = false,
 }) => {
   return (
     <header
       id="meyra-top-navigation"
-      className="h-16 border-b border-white/5 bg-[#0A0A0B]/80 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between z-30 shrink-0 select-none"
+      className="h-14 sm:h-16 border-b border-white/[0.08] bg-[#0c0c10]/90 backdrop-blur-md px-3.5 sm:px-6 flex items-center justify-between z-30 shrink-0 select-none gap-3"
     >
-      {/* Left section: Sidebar toggles & Conversation title */}
-      <div className="flex items-center gap-3 min-w-0">
+      {/* Left section: Sidebar toggle & MEYRA AI Brand */}
+      <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
         {/* Mobile menu trigger */}
         <button
           id="mobile-sidebar-toggle-btn"
           type="button"
           onClick={onToggleMobileSidebar}
-          className="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+          className="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer"
           title="Open menu"
+          aria-label="Open navigation menu"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -62,81 +64,66 @@ export const TopNav: React.FC<TopNavProps> = ({
         {/* Desktop expand sidebar trigger */}
         {isDesktopSidebarCollapsed && (
           <button
+            id="desktop-sidebar-expand-btn"
             type="button"
             onClick={onToggleDesktopSidebar}
-            className="hidden lg:flex p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+            className="hidden lg:flex p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer"
             title="Expand sidebar"
+            aria-label="Expand sidebar"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
         )}
 
-        {/* Mobile brand if sidebar is closed */}
-        <div className="lg:hidden">
+        {/* MEYRA AI Logo and Title (Always visible) */}
+        <div className="flex items-center gap-2 select-none shrink-0">
           <Logo size="sm" showText={false} />
+          <span className="text-sm sm:text-base font-bold text-white tracking-wide">
+            MEYRA AI
+          </span>
         </div>
 
-        {/* Current chat title with quick rename */}
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="text-sm font-semibold text-white truncate max-w-[160px] sm:max-w-xs md:max-w-md">
-            {currentTitle}
-          </span>
-          {onRenameChat && (
-            <button
-              type="button"
-              onClick={onRenameChat}
-              className="p-1 text-slate-500 hover:text-indigo-300 rounded hover:bg-white/5 transition-colors cursor-pointer"
-              title="Rename this conversation"
-            >
-              <Edit2 className="w-3 h-3" />
-            </button>
-          )}
-        </div>
+        {/* Conversation Title on medium+ screens */}
+        {hasMessages && currentTitle && (
+          <div className="hidden sm:flex items-center gap-1.5 min-w-0 pl-3 border-l border-white/[0.1]">
+            <span className="text-xs sm:text-sm font-medium text-slate-300 truncate max-w-[160px] md:max-w-xs lg:max-w-sm">
+              {currentTitle}
+            </span>
+            {onRenameChat && (
+              <button
+                type="button"
+                onClick={onRenameChat}
+                className="p-1 text-slate-500 hover:text-indigo-300 rounded hover:bg-white/[0.06] transition-colors cursor-pointer shrink-0"
+                title="Rename this conversation"
+                aria-label="Rename conversation"
+              >
+                <Edit2 className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Active Project Tag */}
+        {activeProjectTitle && (
+          <button
+            type="button"
+            onClick={onOpenProjects}
+            className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-xs font-medium hover:bg-indigo-500/25 transition-colors cursor-pointer truncate max-w-[140px]"
+            title={`Active Project: ${activeProjectTitle}`}
+          >
+            <FolderKanban className="w-3 h-3 text-indigo-400 shrink-0" />
+            <span className="truncate">{activeProjectTitle}</span>
+          </button>
+        )}
       </div>
 
-      {/* Right section: Model pill, New Chat, Theme toggle, Settings */}
-      <div className="flex items-center gap-2">
-        {/* Model Indicator Pill */}
-        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-slate-800/80 rounded-full text-[10px] font-bold uppercase tracking-wider text-slate-300 border border-white/5">
-          <Sparkles className="w-3 h-3 text-indigo-400" />
-          <span>Meyra Pro • Gemini 3.7</span>
-        </div>
-
-        {/* New chat icon */}
-        <button
-          type="button"
-          onClick={onNewChat}
-          className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
-          title="New Conversation"
-        >
-          <Plus className="w-4 h-4 text-indigo-400" />
-        </button>
-
-        {/* Theme Toggle */}
-        <button
-          id="theme-toggle-btn"
-          type="button"
-          onClick={onToggleTheme}
-          className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
-          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-        >
-          {theme === "dark" ? (
-            <Sun className="w-4 h-4 text-amber-400" />
-          ) : (
-            <Moon className="w-4 h-4 text-indigo-400" />
-          )}
-        </button>
-
-        {/* Settings button */}
-        <button
-          id="top-settings-btn"
-          type="button"
-          onClick={onOpenSettings}
-          className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
-          title="Open Settings"
-        >
-          <Settings className="w-4 h-4" />
-        </button>
+      {/* Right section: Fast Model / Persona Selector */}
+      <div className="flex items-center shrink-0">
+        <PersonaSelector
+          currentPersona={currentPersona}
+          onSelect={onSelectPersona}
+          compact={false}
+        />
       </div>
     </header>
   );

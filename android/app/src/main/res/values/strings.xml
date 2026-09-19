@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">MEYRA AI</string>
+    <string name="app_tagline">Your Intelligent AI Companion</string>
+    <string name="welcome_headline">How can I help you today?</string>
+    <string name="welcome_subtitle">Ask anything, write something creative, or debug code with MEYRA AI.</string>
+    
+    <string name="action_new_chat">New Conversation</string>
+    <string name="action_send">Send message</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_copied">Copied to clipboard</string>
+    <string name="action_configure_backend">Backend Settings</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_reset_default">Reset to Default</string>
+
+    <!-- Suggestion Prompts -->
+    <string name="suggestion_explain_title">Explain something</string>
+    <string name="suggestion_explain_desc">Quantum computing in simple terms with an everyday analogy</string>
+    <string name="suggestion_explain_prompt">Explain how quantum computing works compared to classical computing, using an intuitive everyday analogy that anyone can understand.</string>
+
+    <string name="suggestion_write_title">Help me write</string>
+    <string name="suggestion_write_desc">Executive strategy memo for integrating AI into business workflows</string>
+    <string name="suggestion_write_prompt">Draft a concise, high-impact executive memo proposing a roadmap for integrating AI automation into customer support operations safely.</string>
+
+    <string name="suggestion_code_title">Help me code</string>
+    <string name="suggestion_code_desc">Kotlin Coroutines Flow worker queue with retry &amp; timeout</string>
+    <string name="suggestion_code_prompt">Write a complete, production-ready Kotlin Coroutines implementation of a concurrent worker queue with retry backoff and timeout handling.</string>
+
+    <string name="input_placeholder">Ask MEYRA AI anything...</string>
+    <string name="status_thinking">MEYRA AI is thinking...</string>
+    <string name="status_offline">No internet connection. Please check your network.</string>
+    <string name="error_empty_message">Please enter a message.</string>
+</resources>

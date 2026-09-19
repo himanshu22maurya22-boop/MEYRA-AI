@@ -1,86 +1,140 @@
 import React from "react";
 import { Logo } from "../brand/Logo";
-import { SuggestionCards } from "./SuggestionCards";
-import { Sparkles, Cpu, ShieldCheck } from "lucide-react";
+import { HelpCircle, PenTool, Code2, Lightbulb } from "lucide-react";
 
 interface WelcomeScreenProps {
   onSelectPrompt: (prompt: string) => void;
-  isApiConfigured: boolean;
+  userDisplayName?: string;
+  isApiConfigured?: boolean;
   onOpenSettings?: () => void;
+  onOpenVoiceMode?: () => void;
+  onOpenImageGen?: () => void;
+  onOpenProjects?: () => void;
 }
+
+interface SuggestionChipItem {
+  id: string;
+  category: "explain" | "write" | "code" | "ideas";
+  title: string;
+  prompt: string;
+}
+
+const SUGGESTION_CHIPS: SuggestionChipItem[] = [
+  {
+    id: "explain",
+    category: "explain",
+    title: "Explain something",
+    prompt:
+      "Explain how quantum computing works compared to classical computing, using an intuitive everyday analogy that anyone can understand.",
+  },
+  {
+    id: "write",
+    category: "write",
+    title: "Help me write",
+    prompt:
+      "Draft a concise, high-impact executive memo proposing a roadmap for integrating AI automation into business operations safely.",
+  },
+  {
+    id: "code",
+    category: "code",
+    title: "Help me code",
+    prompt:
+      "Write a complete, type-safe TypeScript implementation of a concurrent task queue with max concurrency limits, exponential backoff retries, and timeout handling.",
+  },
+  {
+    id: "ideas",
+    category: "ideas",
+    title: "Give me ideas",
+    prompt:
+      "Brainstorm 5 innovative, commercially viable startup ideas that combine generative AI intelligence with clean renewable energy systems. Include value proposition for each.",
+  },
+];
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   onSelectPrompt,
-  isApiConfigured,
-  onOpenSettings,
+  userDisplayName,
 }) => {
+  // Dynamically derive greeting name from display name
+  const getGreetingName = (rawName?: string): string | null => {
+    if (!rawName) return null;
+    const trimmed = rawName.trim();
+    if (!trimmed) return null;
+    // Don't show default generic "User" placeholder
+    if (trimmed.toLowerCase() === "user") return null;
+    // Never show email or internal IDs
+    if (trimmed.includes("@")) return null;
+    // Extract first name (e.g. "Himanshu Maurya" -> "Himanshu", "Aditya" -> "Aditya", "Ankit" -> "Ankit")
+    const firstWord = trimmed.split(/\s+/)[0];
+    return firstWord || null;
+  };
+
+  const name = getGreetingName(userDisplayName);
+
+  const getChipIcon = (category: SuggestionChipItem["category"]) => {
+    switch (category) {
+      case "explain":
+        return <HelpCircle className="w-3.5 h-3.5 text-amber-400/90 shrink-0" />;
+      case "write":
+        return <PenTool className="w-3.5 h-3.5 text-indigo-400/90 shrink-0" />;
+      case "code":
+        return <Code2 className="w-3.5 h-3.5 text-purple-400/90 shrink-0" />;
+      case "ideas":
+        return <Lightbulb className="w-3.5 h-3.5 text-emerald-400/90 shrink-0" />;
+    }
+  };
+
   return (
     <div
       id="meyra-welcome-screen"
-      className="flex flex-col items-center justify-center min-h-full px-4 py-8 text-center max-w-4xl mx-auto my-auto"
+      className="flex flex-col items-center justify-center w-full px-3 sm:px-6 py-4 sm:py-8 text-center max-w-2xl mx-auto select-none"
     >
-      {/* Brand Hero Visual */}
-      <div className="mb-6 flex flex-col items-center">
-        <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-4 shadow-xl">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-8 h-8 text-indigo-400"
-          >
-            <path d="M3 20V4l9 7 9-7v16" />
-          </svg>
-        </div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-950/40 border border-indigo-500/30 text-indigo-300 text-xs font-medium">
-          <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-          <span>MEYRA AI • Powered by Gemini 3.7</span>
-        </div>
+      {/* Subtle MEYRA AI Brand Header */}
+      <div className="flex items-center gap-2 mb-3 sm:mb-4 select-none opacity-90">
+        <Logo size="sm" showText={false} />
+        <span className="text-xs sm:text-sm font-semibold tracking-widest text-indigo-300/90 uppercase">
+          MEYRA AI
+        </span>
       </div>
 
-      {/* Main Title & Subtitle */}
-      <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 tracking-tight">
-        How can I help you today?
-      </h1>
-      <p className="text-slate-400 text-base sm:text-lg mb-8 sm:mb-10 text-center max-w-md">
-        Ask anything, create something, or learn something new.
-      </p>
-
-      {/* API Notice if not configured */}
-      {!isApiConfigured && (
-        <div className="mb-8 w-full max-w-md p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30 text-amber-200 text-xs flex items-center justify-between gap-3 text-left">
-          <div className="flex items-center gap-2">
-            <Cpu className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Ready for your Gemini API key in <code className="font-mono bg-amber-900/50 px-1 rounded">.env</code></span>
-          </div>
-          {onOpenSettings && (
-            <button
-              onClick={onOpenSettings}
-              className="px-2.5 py-1 text-[11px] font-semibold bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 rounded text-amber-200 cursor-pointer shrink-0"
-            >
-              Configure
-            </button>
-          )}
-        </div>
+      {/* Personalized Greeting */}
+      {name ? (
+        <h1
+          id="meyra-home-greeting"
+          className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-white text-center leading-tight mb-2 sm:mb-3"
+        >
+          <span>How can I help, </span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-indigo-200 font-bold">
+            {name}?
+          </span>
+        </h1>
+      ) : (
+        <h1
+          id="meyra-home-greeting"
+          className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-white text-center leading-tight mb-2 sm:mb-3"
+        >
+          How can I help?
+        </h1>
       )}
 
-      {/* 4 Suggestion Cards */}
-      <SuggestionCards onSelectPrompt={onSelectPrompt} />
-
-      {/* Trust & Capability micro-badge */}
-      <div className="mt-10 flex items-center justify-center gap-6 text-[11px] font-medium text-slate-500">
-        <div className="flex items-center gap-1.5">
-          <ShieldCheck className="w-3.5 h-3.5 text-indigo-400/80" />
-          <span>Server-Side API Security</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5 text-purple-400/80" />
-          <span>Full Markdown & Code Support</span>
-        </div>
+      {/* Compact Suggestion Chips */}
+      <div
+        id="meyra-suggestion-chips"
+        className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 max-w-xl mt-3 sm:mt-5 px-1"
+      >
+        {SUGGESTION_CHIPS.map((chip) => (
+          <button
+            id={`suggestion-chip-${chip.category}`}
+            key={chip.id}
+            type="button"
+            onClick={() => onSelectPrompt(chip.prompt)}
+            className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-indigo-500/40 text-slate-300 hover:text-white text-xs sm:text-sm font-medium transition-all duration-150 cursor-pointer shadow-sm active:scale-95"
+            title={chip.title}
+          >
+            {getChipIcon(chip.category)}
+            <span>{chip.title}</span>
+          </button>
+        ))}
       </div>
     </div>
   );
 };
-

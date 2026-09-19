@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- MEYRA AI Brand Palette -->
+    <color name="meyra_background">#0A0A0B</color>
+    <color name="meyra_surface">#121215</color>
+    <color name="meyra_surface_variant">#1A1A20</color>
+    <color name="meyra_surface_highlight">#23232C</color>
+    
+    <color name="meyra_primary">#6366F1</color>
+    <color name="meyra_primary_variant">#4F46E5</color>
+    <color name="meyra_primary_light">#818CF8</color>
+    
+    <color name="meyra_accent_purple">#A855F7</color>
+    <color name="meyra_accent_amber">#F59E0B</color>
+    <color name="meyra_accent_emerald">#10B981</color>
+    
+    <color name="meyra_text_primary">#F8FAFC</color>
+    <color name="meyra_text_secondary">#94A3B8</color>
+    <color name="meyra_text_muted">#64748B</color>
+    
+    <color name="meyra_border">#272730</color>
+    <color name="meyra_error">#EF4444</color>
+</resources>
